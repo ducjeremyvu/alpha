@@ -16,8 +16,12 @@ def render_query(template: Template, **params):
 
 
 def get_sql_query(name: str, **params) -> str:
+    # queries must be placed inside a 'sql' folder in the root directory
     template = load_query(name)
     sql = render_query(template, **params)
     return sql
 
 
+
+if __name__=='__main__':
+    pass

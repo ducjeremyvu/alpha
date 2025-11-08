@@ -1,0 +1,1 @@
+DATAPATH = "/Users/ducjeremyvu/trading/price_data"
