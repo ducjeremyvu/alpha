@@ -1,0 +1,86 @@
+# Byte-compiled / optimized
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+*.egg
+*.whl
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv/
+venv.bak/
+
+# Environment variables / secrets
+.env
+.env.*
+.envrc
+.secrets/
+
+# Testing / coverage / caches
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.cache/
+.prof
+
+# Type checkers / linters
+.mypy_cache/
+.pyre/
+.pytype/
+.ruff_cache/
+
+# IDEs and editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Logs
+*.log
+
+# Databases (DuckDB + common DB files)
+*.duckdb
+*.duckdb-wal
+*.duckdb-journal
+*.db
+*.sqlite
+*.sqlite3
+*.sqlite3-journal
+
+# Data directories / exported datasets (adjust if you keep data in repo)
+data/
+datasets/
+raw_data/
+processed_data/
+exports/
+
+# Common data file formats (adjust if you track some in repo)
+*.csv
+*.tsv
+*.parquet
+*.feather
+*.h5
+*.hdf5

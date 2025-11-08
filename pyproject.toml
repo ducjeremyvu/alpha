@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "edge-tools"
+version = "0.1.0"
+description = "Reusable utilities for data/TA/backtesting"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [{name = "djv"}]
+requires-python = ">=3.10"
+dependencies = [
+    "duckdb>=1.4.1",
+    "ipykernel>=7.1.0",
+    "jinja2>=3.1.6",
+    "pathlib>=1.0.1",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest",
+  "ipykernel",
+  "pandas",
+  "numpy",
+  "matplotlib",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
