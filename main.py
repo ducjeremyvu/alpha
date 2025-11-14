@@ -6,6 +6,9 @@ from src.edge_tools.dir import get_sql_query
 # importing testing modules from
 from src.edge_tools.database import insert_minute_file_data
 from src.edge_tools.open import candlestick_plot, ny_open_30_minute, plot_all_us500_and_save
+
+from src.edge_tools.analytics.normalize import add_midpoint_value, normalize_data
+
 import logging
 
 # python modules 
@@ -17,25 +20,12 @@ from typing import List, Dict
 
 import mplfinance as mpf
 
+import subprocess
+import typer
+
 logger = logging.getLogger(__name__)
 
 selected_date = datetime(2025, 11, 5)
-
-
-def add_midpoint_value(row):
-    """
-    function to calculate midpoint value
-    """
-    typical_price = (row["high"] + row["low"] + row["close"]) / 3
-    return round(typical_price, 2)
-
-
-def normalize_data(df: pd.DataFrame, anchor_price) -> pd.DataFrame:
-    """
-    adding a column with no
-    """
-    df["normalized_price"] = df.apply(lambda x: (x["typical_price"]/anchor_price) - 1, axis=1)
-    return df
 
 
 def normalizing_data():
@@ -57,6 +47,7 @@ def normalizing_data():
         normalized_df = pd.concat([normalized_df, normalized_data])
 
     logger.debug(normalized_df.reset_index())
+    
     
 def get_daily_data():
     """
@@ -91,6 +82,7 @@ def get_daily_data():
     logger.debug("Daily data preview:\n%s", daily.tail())
 
     return daily
+
 
 
 def main():
