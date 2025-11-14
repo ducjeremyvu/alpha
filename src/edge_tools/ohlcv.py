@@ -4,7 +4,11 @@ from datetime import datetime, date
 
 from .dir import get_sql_query
 from .date import to_datetime
+import logging
+
 import duckdb
+
+logger = logging.getLogger(__name__)
 
 __all__ = ["normalize_ohlcv", "require_columns"]
 
@@ -20,15 +24,16 @@ ALIASES = {
 def ohlcv_for_date_and_prev(symbol: str, selected_date: str | int | float | datetime | date) -> pd.DataFrame:
     
     selected_date = to_datetime(selected_date).date()
-    
     start_date = (selected_date - pd.Timedelta(days=1)).strftime("%Y-%m-%d")
     end_date = (selected_date + pd.Timedelta(days=1)).strftime("%Y-%m-%d")
+
     params = {
         "symbol": symbol,
         "start_date": start_date,
         "end_date": end_date
     }
-
+    logger.debug(f"SQL Query Parameters: {params}")
+    
     filename = "ohlcv_data__by_ticker_and_date.sql"
 
     query = get_sql_query(filename, **params)

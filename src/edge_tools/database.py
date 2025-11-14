@@ -156,7 +156,19 @@ def insert_minute_file_data():
             logger.info(f"Inserted data for symbol: {params.get('symbol')} from file: {params.get('file_path_csv')}")
 
             mark_file_as_done(path)
-                    
+
+
+
+def get_all_available_dates():
+    with get_duckdb_connection() as con:
+        query = get_sql_query("get_all_dates.sql")
+        result = con.execute(query).fetchall()
+        # logger.debug(f"Query Result: {result}")
+        dates = sorted([row[0] for row in result])
+        logger.debug(f"Available dates in database: {dates[0:5]}")  # Log the last few dates
+        logger.info(f"Total available dates: {len(dates)}")
+    return dates[1:] # Exclude the first date if needed
+
 
 if __name__ == "__main__": 
     pass
