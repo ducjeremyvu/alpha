@@ -1,18 +1,20 @@
-from src.edge_tools.database import get_duckdb_connection
-from src.edge_tools.dir import get_sql_query
-from .api.data import ny_open_30_minute_by_date
-from .analytics.open import ny_open_30_minute
-from .analytics.utils import get_data_from_specific_date
-from typing import List
-from datetime import datetime, date
-import pandas as pd
-import logging
+
+import logging 
+import pandas as pd 
 import mplfinance as mpf
-from .analytics.utils import get_available_dates, get_data_from_specific_date
+from .utils import get_data_from_specific_date, get_available_dates
+from ..db import get_duckdb_connection
+from ..dir import get_sql_query
+
 logger = logging.getLogger(__name__)
 
-__all__ = ["ny_open_30_minute_by_date"]
-
+def ny_open_30_minute():
+    with get_duckdb_connection() as con:
+        query = get_sql_query("get_first_30_min.sql")
+        result = con.execute(query).df()
+        logger.debug(f"Last 5 df results: {result.tail()}")
+        result.rename(columns={"ts_ny":"time"}, inplace=True)        
+        return result
 
 
 

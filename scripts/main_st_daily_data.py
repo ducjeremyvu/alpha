@@ -1,7 +1,5 @@
 
 from src.edge_tools.logger import setup_logging
-from src.edge_tools.premarket import compute_metrics, filter_today_first_30_minutes
-
 
 from src.edge_tools.database import get_duckdb_connection
 from src.edge_tools.dir import get_sql_query
@@ -81,7 +79,7 @@ def create_candlestick_chart(df: pd.DataFrame, symbol: str) -> go.Figure:
         decreasing_line_color='red'
     )])
     fig.update_layout(
-        title=f'Daily Candle Stick',
+        title='Daily Candle Stick',
         yaxis_title='Price',
         xaxis_title='Time (NY Time)',
         xaxis_rangeslider_visible=False

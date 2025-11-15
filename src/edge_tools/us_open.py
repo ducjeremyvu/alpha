@@ -1,4 +1,3 @@
-import pytz
 import pandas as pd
 from edge_tools.ohlcv import require_columns
 

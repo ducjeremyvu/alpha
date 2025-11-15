@@ -1,11 +1,13 @@
-import logging
-from pathlib import Path
-
-logger = logging.get(__name__)
-
 from .files import assign_data_path, get_unwritten_files, map_symbols_to_files, build_symbol_file_records, mark_file_as_done
 from ..db import get_duckdb_connection
 from ..dir import get_sql_query # soon to be moved
+
+import logging
+
+
+logger = logging.getLogger(__name__)
+
+
 
 def insert_minute_file_data():
     """

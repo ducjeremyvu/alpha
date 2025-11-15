@@ -1,0 +1,147 @@
+.
+├── __pycache__
+│   └── main_api.cpython-313.pyc
+├── api
+│   ├── __pycache__
+│   │   └── main.cpython-313.pyc
+│   └── main.py
+├── app.log
+├── coding_log.md
+├── coding.md
+├── edge
+│   └── sp500
+│       ├── data
+│       │   └── US500_Minute_20250821_0926.csv
+│       ├── data_sp500.ipynb
+│       ├── us500_daily_premarket.ipynb
+│       └── us500_timezone.ipynb
+├── frontend
+│   ├── index.html
+│   ├── main.js
+│   └── simple-chart.js
+├── gpt_example.py
+├── identifier.db
+├── local.duckdb
+├── main_st_daily_data.py
+├── main_st.py
+├── main.py
+├── notebooks
+│   ├── DUCKDB_PATH
+│   ├── duckdb.ipynb
+│   ├── import_us500_data.ipynb
+│   ├── initial.ipynb
+│   ├── queries.ipynb
+│   └── template_load_data.ipynb
+├── pyproject.toml
+├── README.md
+├── requirements.txt
+├── ROADMAP.md
+├── sql
+│   ├── count_days_entries.sql
+│   ├── create_ohlcv_minute_table.sql
+│   ├── get_all_dates.sql
+│   ├── get_first_30_min.sql
+│   ├── get_ny_business_time.sql
+│   ├── import_minute_data_with_symbol_from_csv.sql
+│   ├── ohlcv_data__by_ticker_and_date.sql
+│   └── query_us500_first_30_min_by_date.sql
+├── src
+│   ├── edge_tools
+│   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   │   ├── __init__.cpython-312.pyc
+│   │   │   ├── __init__.cpython-313.pyc
+│   │   │   ├── constants.cpython-313.pyc
+│   │   │   ├── database.cpython-313.pyc
+│   │   │   ├── date.cpython-313.pyc
+│   │   │   ├── dir.cpython-313.pyc
+│   │   │   ├── logger.cpython-313.pyc
+│   │   │   ├── notebook.cpython-313.pyc
+│   │   │   ├── ohlcv.cpython-313.pyc
+│   │   │   ├── open.cpython-313.pyc
+│   │   │   ├── premarket.cpython-313.pyc
+│   │   │   ├── regimes.cpython-313.pyc
+│   │   │   ├── time.cpython-313.pyc
+│   │   │   ├── tools.cpython-313.pyc
+│   │   │   └── us_open.cpython-313.pyc
+│   │   ├── analytics
+│   │   │   ├── __init__.py
+│   │   │   ├── __pycache__
+│   │   │   │   ├── __init__.cpython-313.pyc
+│   │   │   │   ├── normalize.cpython-313.pyc
+│   │   │   │   └── utils.cpython-313.pyc
+│   │   │   ├── normalize.py
+│   │   │   ├── ohlcv.py
+│   │   │   ├── open.py
+│   │   │   ├── premarket.py
+│   │   │   └── utils.py
+│   │   ├── api
+│   │   │   ├── __init__.py
+│   │   │   ├── __pycache__
+│   │   │   │   ├── __init__.cpython-312.pyc
+│   │   │   │   ├── __init__.cpython-313.pyc
+│   │   │   │   ├── data.cpython-312.pyc
+│   │   │   │   ├── data.cpython-313.pyc
+│   │   │   │   └── dir.cpython-313.pyc
+│   │   │   ├── data.py
+│   │   │   └── dir.py
+│   │   ├── constants.py
+│   │   ├── dash
+│   │   │   └── __init__.py
+│   │   ├── database.py
+│   │   ├── date.py
+│   │   ├── db
+│   │   │   ├── __init__.py
+│   │   │   └── __pycache__
+│   │   │       ├── __init__.cpython-312.pyc
+│   │   │       └── __init__.cpython-313.pyc
+│   │   ├── dir.py
+│   │   ├── docs
+│   │   │   └── logger.md
+│   │   ├── ingest
+│   │   │   ├── __init__.py
+│   │   │   ├── __pycache__
+│   │   │   │   ├── __init__.cpython-313.pyc
+│   │   │   │   └── files.cpython-313.pyc
+│   │   │   └── files.py
+│   │   ├── logger.py
+│   │   ├── notebook.py
+│   │   ├── ohlcv.py
+│   │   ├── open.py
+│   │   ├── premarket.py
+│   │   ├── regimes.py
+│   │   ├── streamlit
+│   │   │   └── __init__.py
+│   │   ├── time.py
+│   │   ├── tools.py
+│   │   ├── us_open.py
+│   │   └── utils
+│   │       ├── __init__.py
+│   │       ├── __pycache__
+│   │       │   ├── __init__.cpython-313.pyc
+│   │       │   └── logger.cpython-313.pyc
+│   │       ├── date.py
+│   │       ├── logger.py
+│   │       └── time.py
+│   └── edge_tools.egg-info
+│       ├── dependency_links.txt
+│       ├── PKG-INFO
+│       ├── requires.txt
+│       ├── SOURCES.txt
+│       └── top_level.txt
+├── SUMMARY.md
+├── tests
+│   ├── __pycache__
+│   │   ├── test_date.cpython-313-pytest-8.4.1.pyc
+│   │   ├── test_ohlcv.cpython-313-pytest-8.4.1.pyc
+│   │   ├── test_regimes.cpython-313-pytest-8.4.1.pyc
+│   │   └── test_us_open.cpython-313-pytest-8.4.1.pyc
+│   ├── test_date.py
+│   ├── test_ohlcv.py
+│   └── test_us_open.py
+├── tree.txt
+├── try.py
+├── uv.lock
+└── WARP.md
+
+29 directories, 116 files

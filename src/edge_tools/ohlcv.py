@@ -49,7 +49,10 @@ def normalize_ohlcv(df: pd.DataFrame, style: str = "capitalized") -> pd.DataFram
     if style not in {"capitalized", "lowercase"}:
         raise ValueError("style must be 'capitalized' or 'lowercase'")
 
-    target = lambda k: k.capitalize() if style == "capitalized" else k.lower()
+    def _target():
+        return lambda k: k.capitalize() if style == "capitalized" else k.lower()
+
+    target = _target()
     mapping = {k: target(k) for k in ALIASES.keys()}
 
     rename_map = {}

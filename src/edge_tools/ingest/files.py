@@ -4,7 +4,7 @@ import logging
 from pathlib import Path
 
 
-logger = logging.get(__name__)
+logger = logging.getLogger(__name__)
 
 
 def assign_data_path(datapath: str = None) -> Path:

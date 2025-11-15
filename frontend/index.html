@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alpha Charts</title>
+  </head>
+  <body>
+  <header>
+    <span>Symbol:</span>
+    <select id="symbol">
+      <option value="US500">US500</option>
+      <option value="NAS100">NAS100</option>
+      <!-- extend later -->
+    </select>
+
+    <span>Date:</span>
+    <input id="date" type="date" />
+  </header>
+
+    <div id="chart-container">
+      <div id="chart"></div>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

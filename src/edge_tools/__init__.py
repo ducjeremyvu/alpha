@@ -1,4 +1,7 @@
 from __future__ import annotations
+
+import importlib.metadata
+
 import importlib
 import pkgutil
 import sys
@@ -13,7 +16,7 @@ Keep this file minimal to make imports cheap.
 """
 
 
-import importlib.metadata
+
 
 __all__ = ["__version__", "get_version"]
 

@@ -1,16 +1,14 @@
 ### soon to be deprecated 
 
-import duckdb
-from pathlib import Path
-from .constants import DATAPATH
 from .dir import get_sql_query
 
 from .db import get_duckdb_connection
-from .ingest import assign_data_path, get_unwritten_files, insert_minute_file_data
-from .ingest.files import extract_symbol_from_filename , map_symbols_to_files, get_absolute_filepath, ark_file_as_done
 
+from .ingest import insert_minute_file_data
 
 import logging
+
+__all__ = ["insert_minute_file_data"]
 
 logger = logging.getLogger(__name__)
 

@@ -46,33 +46,42 @@ def classify_regimes(
     def vol_bucket(v, lo, hi):
         if pd.isna(v) or pd.isna(lo) or pd.isna(hi):
             return np.nan
-        if v <= lo:   return 'LowVol'
-        if v >= hi:   return 'HighVol'
+        if v <= lo:   
+            return 'LowVol'
+        if v >= hi:   
+            return 'HighVol'
         return 'MidVol'
 
     df['VolBucket'] = [vol_bucket(v, lo, hi) for v, lo, hi in zip(df['ATR_pct'], q_lo, q_hi)]
 
     # --- Trend direction bucket from CLV ---
     def trend_dir(clv):
-        if np.isnan(clv): return np.nan
-        if clv >= 2/3:    return 'TrendUp'
-        if clv <= 1/3:    return 'TrendDown'
+        if np.isnan(clv): 
+            return np.nan
+        if clv >= 2/3:    
+            return 'TrendUp'
+        if clv <= 1/3:    
+            return 'TrendDown'
         return 'Balanced'
     df['TrendDir'] = df['CLV'].apply(trend_dir)
 
     # --- Trendiness from DMR ---
     lo_thresh = 1 - dmr_trend_thresh
     def trendiness(dmr):
-        if np.isnan(dmr):       return 'Unknown'
-        if dmr >= dmr_trend_thresh: return 'Trend'
-        if dmr <= lo_thresh:        return 'Range'
+        if np.isnan(dmr):       
+            return 'Unknown'
+        if dmr >= dmr_trend_thresh: 
+            return 'Trend'
+        if dmr <= lo_thresh:        
+            return 'Range'
         return 'Mixed'
     df['Trendiness'] = df['DMR'].apply(trendiness)
 
     # --- Final regime label ---
     def label_row(row):
         vol = row['VolBucket']
-        if pd.isna(vol): return np.nan
+        if pd.isna(vol): 
+            return np.nan
         if row['Trendiness'] == 'Trend':
             core = row['TrendDir'] if row['TrendDir'] in ('TrendUp', 'TrendDown') else 'Trend'
             return f"{vol}_{core}"

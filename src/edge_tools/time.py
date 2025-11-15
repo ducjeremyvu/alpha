@@ -1,6 +1,7 @@
-import pytz
 import pandas as pd
 from typing import List
+
+
 
 def convert_index_to_utc(data, time_col='time', tz_from='UTC'):
     """

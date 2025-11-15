@@ -5,7 +5,7 @@ from src.edge_tools.dir import get_sql_query
 
 # importing testing modules from
 from src.edge_tools.database import insert_minute_file_data
-from src.edge_tools.open import candlestick_plot, ny_open_30_minute, plot_all_us500_and_save
+from src.edge_tools.open import candlestick_plot, ny_open_30_minute, plot_all_us500_and_save, ny_open_30_minute_by_date
 
 from src.edge_tools.analytics.normalize import add_midpoint_value, normalize_data
 
@@ -13,8 +13,7 @@ import logging
 
 # python modules 
 from datetime import datetime
-import streamlit as st
-from datetime import date, time
+from datetime import time
 import pandas as pd
 from typing import List, Dict
 
@@ -48,7 +47,7 @@ def normalizing_data():
 
     logger.debug(normalized_df.reset_index())
     
-    
+
 def get_daily_data():
     """
     Pull minute data from DuckDB, convert timestamp to NY timezone,
@@ -89,10 +88,11 @@ def main():
     setup_logging(logging.DEBUG) 
 
     logger.info("NEW PROCESS: running insert minute data")
-    insert_minute_file_data()
+    # insert_minute_file_data()
 
-    # normalizing_data()
-    logger.info(get_daily_data())
+
+    df = ny_open_30_minute_by_date("2025-11-06")
+    logger.info(df.to_dict())
 
 if __name__=='__main__':
     main()
