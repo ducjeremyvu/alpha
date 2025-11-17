@@ -43,6 +43,10 @@ def get_candles(date: str):
         
     df = ny_open_30_minute_by_date(date)
     logger.debug(df.head(10))
+    
+    ###################
+    # Time Conversion #
+    ###################
     if df["time"].dt.tz is None:
         df["time"] = df["time"].dt.tz_localize("America/New_York")
     df["time"] = df["time"].dt.tz_convert("UTC")
@@ -50,5 +54,15 @@ def get_candles(date: str):
     logger.debug(f"/candles for {date}: \n {df.head(10)}")
     
     df = df.to_dict("records")
-    cache.set(key, df)
-    return df
+    
+    response = {}
+    response["data"] = df
+    response["metrics"] = ""
+
+    logger.debug(f"""
+                 Get candles will output the following: 
+                 {response}
+    """)
+    cache.set(key, response)
+    
+    return response

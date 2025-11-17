@@ -1,6 +1,7 @@
 <script lang="ts">
   import { createChart } from 'lightweight-charts';
   import { fetchCandlesForDate } from '$lib/api/candles';
+  import type { Candle } from '$lib/api/candles'
 
   let chart: ReturnType<typeof createChart> | null = null;
   let candleSeries: any = null;
@@ -11,14 +12,7 @@
   function todayISO() {
     return new Date().toISOString().split("T")[0];
   }
-  interface Candle {
-    time: number;
-    open: number;
-    high: number;
-    low: number;
-    close: number;
-    volume: number;
-  }
+
 
   // 1. Setup chart
   $effect(() => {
@@ -40,7 +34,8 @@
   $effect(async () => {
     if (!candleSeries) return;
     const raw = await fetchCandlesForDate(date);
-    const data: Candle[] = raw.map((row: any) => ({
+    const data_raw = raw.data
+    const data: Candle[] = data_raw.map((row: any) => ({
       time: Math.floor(new Date(row.time).getTime() / 1000),
       open: Number(row.open),
       high: Number(row.high),

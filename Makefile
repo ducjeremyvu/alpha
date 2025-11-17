@@ -23,11 +23,12 @@ ingest-minute:
 # ============================
 # DEVELOPMENT TASKS
 # ============================
-run-api:
-# 	$(PY) api/main.py
+
+run-backend:
+	uv run python cli.py -d backend
 
 run-frontend:
-# 	cd frontend && npm run dev
+	uv run python cli.py -d frontend
 
 main:
 	uv run python main.py

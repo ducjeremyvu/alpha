@@ -311,7 +311,7 @@ def pivot_metrics(con):
         FROM (SELECT DISTINCT metric_name FROM merged)
     """).fetchone()[0]
 
-    sql = f"""
+    sql = f"""de 
         {merged_cte}
         SELECT *
         FROM merged

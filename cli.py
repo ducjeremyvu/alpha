@@ -69,16 +69,23 @@ def dev(
 
 # ───────────── SUBCOMMAND: FRONTEND ─────────────
 @app.command()
-def frontend(
-    dev: bool = typer.Option(True, help="Run in dev mode (npm run dev)")
-):
-    """Start the Svelte frontend."""
-    if dev:
-        typer.echo("🚀 Running frontend in DEV mode…")
-        # subprocess.run(["npm", "run", "dev"], cwd="frontend")
-    else:
-        typer.echo("🧱 Running in production (built files).")
+def frontend():
+    typer.echo("🎨 Starting Svelte frontend...")
+    front_proc = subprocess.Popen(
+        ["npm", "run", "dev"],
+        cwd="front-svelte"   # adjust to your workspace
+    )
 
+@app.command()
+def backend(api_port: int = typer.Option(8000)):
+    """Run the FastAPI backend."""
+    typer.echo("⚙️ Starting FastAPI backend...")
+    api_proc = subprocess.Popen([
+        "uvicorn",
+        "api.main:app",
+        "--reload",
+        "--port", str(api_port)
+    ])
 
 # ───────────── SUBCOMMAND: INGEST ─────────────
 @app.command()
