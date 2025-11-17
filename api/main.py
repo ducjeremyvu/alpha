@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from edge_tools.api.data import ny_open_30_minute_by_date
 from edge_tools.utils.logger import setup_logging
 
-from utils import Cache
+from .utils import Cache
 
 import pandas as pd
 import logging
