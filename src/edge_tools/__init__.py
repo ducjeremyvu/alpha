@@ -16,8 +16,6 @@ Keep this file minimal to make imports cheap.
 """
 
 
-
-
 __all__ = ["__version__", "get_version"]
 
 # Try to obtain the installed distribution version; fall back to a default.
@@ -34,7 +32,10 @@ def get_version() -> str:
 
 # Cache list of available top-level submodules (names only)
 _package_paths = __path__  # type: ignore[attr-defined]
-_available_submodules = {name for _, name, ispkg in pkgutil.iter_modules(_package_paths)}
+_available_submodules = {
+    name for _, name, ispkg in pkgutil.iter_modules(_package_paths)
+}
+
 
 def _import_submodule(name: str) -> ModuleType:
     """Import a submodule of this package and cache it in the package namespace."""
@@ -42,6 +43,7 @@ def _import_submodule(name: str) -> ModuleType:
     module = importlib.import_module(fullname)
     setattr(sys.modules[__name__], name, module)
     return module
+
 
 def __getattr__(name: str):
     """
@@ -53,6 +55,7 @@ def __getattr__(name: str):
     if name in _available_submodules:
         return _import_submodule(name)
     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+
 
 def __dir__() -> Iterable[str]:
     """List public attributes including discovered submodules."""

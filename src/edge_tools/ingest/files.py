@@ -9,9 +9,9 @@ logger = logging.getLogger(__name__)
 
 def assign_data_path(datapath: str = None) -> Path:
     """Assigns the data path for price data storage.
-    
-    Args: datapath (str, optional): Custom data path. Defaults to None.   
-        
+
+    Args: datapath (str, optional): Custom data path. Defaults to None.
+
     Returns: Path: The assigned data path as a Path object.
     """
     if not datapath:
@@ -30,7 +30,8 @@ def get_unwritten_files(folder: Path, interval: str = "Minute") -> list[Path]:
         list[Path]: A list of Path objects representing the unwritten files.
     """
     files = [
-        f for f in folder.iterdir()
+        f
+        for f in folder.iterdir()
         if f.is_file()
         and f"_{interval}_" in f.name
         and "_done" not in f.name
@@ -63,18 +64,16 @@ def map_symbols_to_files(files: list[Path]) -> dict[str, Path]:
     return {extract_symbol_from_filename(f): f for f in files}
 
 
-
 def get_absolute_filepath(path: Path) -> str:
     """Convert a Path object to its absolute filepath string.
-    
+
     Args:
         path (Path): The Path object to convert
-        
+
     Returns:
         str: The absolute filepath as a string
     """
     return str(path.absolute())
-
 
 
 def build_symbol_file_records(symbol_file_map: dict[str, Path]) -> list[dict]:
@@ -83,24 +82,27 @@ def build_symbol_file_records(symbol_file_map: dict[str, Path]) -> list[dict]:
     """
     records: list[dict] = []
     for symbol, path_obj in symbol_file_map.items():
-        path_str = get_absolute_filepath(path_obj) if isinstance(path_obj, Path) else str(path_obj)
-        records.append({
-            "path": path_obj,
-            "parameter": {
-                "symbol": symbol,
-                "file_path_csv": path_str
+        path_str = (
+            get_absolute_filepath(path_obj)
+            if isinstance(path_obj, Path)
+            else str(path_obj)
+        )
+        records.append(
+            {
+                "path": path_obj,
+                "parameter": {"symbol": symbol, "file_path_csv": path_str},
             }
-        })
+        )
     logger.debug(f"Built symbol file records: {records}")
     return records
 
 
 def mark_file_as_done(file_path: Path) -> Path:
     """Renames a file by appending '_done' before the extension.
-    
+
     Args:
         file_path (Path): Path object of the file to rename
-        
+
     Returns:
         Path: Path object of the renamed file
     """
@@ -109,4 +111,3 @@ def mark_file_as_done(file_path: Path) -> Path:
     file_path.rename(new_path)
     logger.debug(f"File renamed from {file_path} to {new_path}")
     return new_path
-

@@ -17,13 +17,10 @@ def calculate_change(df, start_value: str = "open", end_value: str = "close"):
     """
     if df.shape[0] == 0:
         logger.info("df has no data")
-        return {
-            "absolute_change": None,
-            "relative_change": None
-        }
+        return {"absolute_change": None, "relative_change": None}
 
     starting_price = df.iloc[0][start_value]
-    ending_price   = df.iloc[-1][end_value]
+    ending_price = df.iloc[-1][end_value]
 
     logger.debug(f"Starting price: {starting_price}, Ending price: {ending_price}")
 
@@ -32,21 +29,24 @@ def calculate_change(df, start_value: str = "open", end_value: str = "close"):
 
     return {
         "absolute_change": round(absolute_change, 2),
-        "relative_change": round(relative_change, 4)
+        "relative_change": round(relative_change, 4),
     }
+
 
 def compute_thirty_min_open_change_absolute(df):
     return calculate_change(df)["absolute_change"]
 
+
 def compute_thirty_min_open_change_relative(df):
-    return calculate_change(df)["relative_change"]*100
+    return calculate_change(df)["relative_change"] * 100
+
 
 metric_thirty_min_open_change_abs = MetricDefinition(
     name="thirty_min_us_open_change_abs",
     description="Absolute $ change from US open to 30-minute close",
     dataset="us_open_30m",
     unit="$",
-    compute=compute_thirty_min_open_change_absolute
+    compute=compute_thirty_min_open_change_absolute,
 )
 
 metric_thirty_min_open_change_rel = MetricDefinition(
@@ -54,5 +54,5 @@ metric_thirty_min_open_change_rel = MetricDefinition(
     description="Relative % change from US open to 30-minute close",
     dataset="us_open_30m",
     unit="%",
-    compute=compute_thirty_min_open_change_relative
+    compute=compute_thirty_min_open_change_relative,
 )

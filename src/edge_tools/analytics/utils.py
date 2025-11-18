@@ -6,7 +6,9 @@ from typing import List
 logger = logging.getLogger(__name__)
 
 
-def get_data_from_specific_date(opening_data: pd.DataFrame, selected_date: datetime) -> pd.DataFrame:
+def get_data_from_specific_date(
+    opening_data: pd.DataFrame, selected_date: datetime
+) -> pd.DataFrame:
     return opening_data[opening_data["time"].dt.date == selected_date]
 
 

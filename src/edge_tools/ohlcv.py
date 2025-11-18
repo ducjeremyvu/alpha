@@ -13,27 +13,26 @@ logger = logging.getLogger(__name__)
 __all__ = ["normalize_ohlcv", "require_columns"]
 
 ALIASES = {
-    "open":   ["open", "Open", "o"],
-    "high":   ["high", "High", "h"],
-    "low":    ["low", "Low", "l"],
-    "close":  ["close", "Close", "c"],
+    "open": ["open", "Open", "o"],
+    "high": ["high", "High", "h"],
+    "low": ["low", "Low", "l"],
+    "close": ["close", "Close", "c"],
     "volume": ["volume", "Volume", "vol", "Vol", "v"],
-    "time":   ["time", "Time", "date", "Date", "datetime", "Datetime", "timestamp"],
+    "time": ["time", "Time", "date", "Date", "datetime", "Datetime", "timestamp"],
 }
 
-def ohlcv_for_date_and_prev(symbol: str, selected_date: str | int | float | datetime | date) -> pd.DataFrame:
-    
+
+def ohlcv_for_date_and_prev(
+    symbol: str, selected_date: str | int | float | datetime | date
+) -> pd.DataFrame:
+
     selected_date = to_datetime(selected_date).date()
     start_date = (selected_date - pd.Timedelta(days=1)).strftime("%Y-%m-%d")
     end_date = (selected_date + pd.Timedelta(days=1)).strftime("%Y-%m-%d")
 
-    params = {
-        "symbol": symbol,
-        "start_date": start_date,
-        "end_date": end_date
-    }
+    params = {"symbol": symbol, "start_date": start_date, "end_date": end_date}
     logger.debug(f"SQL Query Parameters: {params}")
-    
+
     filename = "ohlcv_data__by_ticker_and_date.sql"
 
     query = get_sql_query(filename, **params)
@@ -41,8 +40,6 @@ def ohlcv_for_date_and_prev(symbol: str, selected_date: str | int | float | date
     with duckdb.connect("./local.duckdb") as con:
         data = con.execute(query).df()
     return data
-
-
 
 
 def normalize_ohlcv(df: pd.DataFrame, style: str = "capitalized") -> pd.DataFrame:
@@ -69,10 +66,9 @@ def normalize_ohlcv(df: pd.DataFrame, style: str = "capitalized") -> pd.DataFram
         raise ValueError(f"Missing required columns after normalization: {missing}")
     return out
 
+
 def require_columns(df: pd.DataFrame, cols: list[str]) -> None:
     lower_cols = {c.lower() for c in df.columns}
     missing = [c for c in cols if c.lower() not in lower_cols]
     if missing:
         raise ValueError(f"Missing required columns: {missing}")
-
-

@@ -9,7 +9,7 @@ def change_to_root_dir(target_dir_name="alpha"):
     ----------
     target_dir_name : str, optional
         The name of the directory you want to move up to.
-        
+
 
     Notes
     -----
@@ -19,7 +19,7 @@ def change_to_root_dir(target_dir_name="alpha"):
 
     if not target_dir_name:
         raise ValueError("target_dir_name must be provided")
-        
+
     cur = os.getcwd()
 
     while os.path.basename(cur) != target_dir_name and cur != "/":

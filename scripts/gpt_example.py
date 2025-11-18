@@ -7,6 +7,7 @@ import plotly.graph_objects as go
 
 try:
     import yfinance as yf
+
     YF_AVAILABLE = True
 except ImportError:
     YF_AVAILABLE = False
@@ -17,9 +18,12 @@ st.title("📊 Financial Dashboard")
 # Sidebar
 st.sidebar.header("Settings")
 ticker = st.sidebar.text_input("Ticker", value="AAPL").upper()
-start_date = st.sidebar.date_input("Start Date", dt.date.today() - dt.timedelta(days=120))
+start_date = st.sidebar.date_input(
+    "Start Date", dt.date.today() - dt.timedelta(days=120)
+)
 end_date = st.sidebar.date_input("End Date", dt.date.today())
 interval = st.sidebar.selectbox("Interval", ["1d", "1h", "30m", "15m", "5m"])
+
 
 @st.cache_data
 def load_data(t, start, end, interval):
@@ -31,15 +35,19 @@ def load_data(t, start, end, interval):
         # Synthetic fallback data
         rng = pd.date_range(start, end, freq="D")
         price = np.cumsum(np.random.randn(len(rng))) + 150
-        df = pd.DataFrame({
-            "Open": price + np.random.randn(len(rng)),
-            "High": price + np.random.rand(len(rng)),
-            "Low": price - np.random.rand(len(rng)),
-            "Close": price + np.random.randn(len(rng)),
-            "Volume": np.random.randint(10_000, 200_000, len(rng))
-        }, index=rng)
+        df = pd.DataFrame(
+            {
+                "Open": price + np.random.randn(len(rng)),
+                "High": price + np.random.rand(len(rng)),
+                "Low": price - np.random.rand(len(rng)),
+                "Close": price + np.random.randn(len(rng)),
+                "Volume": np.random.randint(10_000, 200_000, len(rng)),
+            },
+            index=rng,
+        )
     df.index.name = "Datetime"
     return df
+
 
 try:
     data = load_data(ticker, start_date, end_date, interval)
@@ -67,16 +75,13 @@ fig = go.Figure(
             high=data["High"],
             low=data["Low"],
             close=data["Close"],
-            name=ticker
+            name=ticker,
         )
     ]
 )
 
 fig.update_layout(
-    title=f"{ticker} Price Chart",
-    xaxis_title="Date",
-    yaxis_title="Price",
-    height=500
+    title=f"{ticker} Price Chart", xaxis_title="Date", yaxis_title="Price", height=500
 )
 
 st.plotly_chart(fig, use_container_width=True)

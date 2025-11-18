@@ -1,4 +1,3 @@
-
 from src.edge_tools.logger import setup_logging
 from src.edge_tools.premarket import compute_metrics, filter_today_first_30_minutes
 from src.edge_tools.date import get_all_available_dates
@@ -10,7 +9,7 @@ import pandas as pd
 
 logger = logging.getLogger(__name__)
 
-setup_logging(logging.DEBUG) 
+setup_logging(logging.DEBUG)
 
 dates_available = get_all_available_dates()
 
@@ -30,7 +29,7 @@ date_input = st.sidebar.slider(
     min_value=dates_available[1],
     max_value=dates_available[-1],
     value=dates_available[-1],
-    format="YYYY-MM-DD"
+    format="YYYY-MM-DD",
 )
 
 
@@ -41,26 +40,30 @@ metrics, data = compute_metrics(symbol=symbol, selected_date=date_input)
 filtered_data = filter_today_first_30_minutes(data)
 
 
-
-col_open, col_metrics  = st.columns([3, 1])
+col_open, col_metrics = st.columns([3, 1])
 
 first_30_min_data = filtered_data
 
+
 def create_candlestick_chart(df: pd.DataFrame, symbol: str) -> go.Figure:
-    fig = go.Figure(data=[go.Candlestick(
-        x=df['ny_time'],
-        open=df['open'],
-        high=df['high'],
-        low=df['low'],
-        close=df['close'],
-        increasing_line_color='green',
-        decreasing_line_color='red'
-    )])
+    fig = go.Figure(
+        data=[
+            go.Candlestick(
+                x=df["ny_time"],
+                open=df["open"],
+                high=df["high"],
+                low=df["low"],
+                close=df["close"],
+                increasing_line_color="green",
+                decreasing_line_color="red",
+            )
+        ]
+    )
     fig.update_layout(
-        title=f'First 30 Minutes Candlestick Chart for {symbol} on {date_input}',
-        yaxis_title='Price',
-        xaxis_title='Time (NY Time)',
-        xaxis_rangeslider_visible=False
+        title=f"First 30 Minutes Candlestick Chart for {symbol} on {date_input}",
+        yaxis_title="Price",
+        xaxis_title="Time (NY Time)",
+        xaxis_rangeslider_visible=False,
     )
     return fig
 
@@ -71,7 +74,7 @@ at_open = filtered_data["open"].iloc[0]
 logger.debug(f"Price at open: {at_open}")
 
 changer_after_30_min = at_30_min - at_open
-logger.debug(f"Change after 30 minutes: {changer_after_30_min}")    
+logger.debug(f"Change after 30 minutes: {changer_after_30_min}")
 percent_change_after_30_min = (changer_after_30_min / at_open) * 100
 logger.debug(f"Percent change after 30 minutes: {percent_change_after_30_min}")
 
@@ -86,7 +89,9 @@ if first_30_min_data is not None:
     # Display the chart using Streamlit
     col_open.plotly_chart(fig)
 else:
-    st.error("Failed to fetch historical data. Please check your API key and selected instrument.")
+    st.error(
+        "Failed to fetch historical data. Please check your API key and selected instrument."
+    )
 
 
 container_metrics = col_metrics.container()
@@ -103,4 +108,3 @@ container_metrics.metric("Max Distance (%)", f"{max_distance_percentage:.2f} %")
 st.json(metrics)
 
 st.dataframe(filtered_data)
-

@@ -1,4 +1,3 @@
-import duckdb
 from .base import MetricDefinition
 import logging
 
@@ -11,6 +10,7 @@ ALL_METRICS = [
     # add more metrics here
 ]
 
+
 def ensure_metric_registered(conn, metric: MetricDefinition):
     meta = metric
     logger.debug(meta)
@@ -19,20 +19,23 @@ def ensure_metric_registered(conn, metric: MetricDefinition):
         """
             INSERT OR IGNORE INTO metrics (metric_name, description, dataset, time_window, unit, category)
             VALUES (?, ?, ?, ?, ?, ?)
-        """, 
+        """,
         [
-            meta.name, 
+            meta.name,
             meta.description,
-            meta.dataset, 
-            meta.window, 
-            meta.unit, 
-            meta.category
-            ]
+            meta.dataset,
+            meta.window,
+            meta.unit,
+            meta.category,
+        ],
     )
 
     # Fetch metric_id
-    metric_id = conn.execute("""
+    metric_id = conn.execute(
+        """
         SELECT metric_id FROM metrics WHERE metric_name = ?
-    """, [meta.name]).fetchone()[0]
+    """,
+        [meta.name],
+    ).fetchone()[0]
 
     return metric_id

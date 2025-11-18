@@ -4,15 +4,15 @@ from src.edge_tools.database import insert_minute_file_data
 from src.edge_tools.utils.logger import setup_logging
 import typer
 import subprocess
-import time 
+import time
 import webbrowser
 import logging
 
 logger = logging.getLogger(__name__)
 
 
-
 app = typer.Typer(help="DJV Command Center 🔧")
+
 
 @app.callback()
 def main(
@@ -25,7 +25,9 @@ def main(
 ):
     level = logging.DEBUG if debug else logging.INFO
     setup_logging(level)
-    logging.info(f"Logging level set to: {logging.getLevelName(logging.getLogger().getEffectiveLevel())}")
+    logging.info(
+        f"Logging level set to: {logging.getLevelName(logging.getLogger().getEffectiveLevel())}"
+    )
 
 
 # ───────────── SUBCOMMAND: API ─────────────
@@ -36,17 +38,13 @@ def dev(
 ):
     """Run the FastAPI backend."""
     typer.echo("⚙️ Starting FastAPI backend...")
-    api_proc = subprocess.Popen([
-        "uvicorn",
-        "api.main:app",
-        "--reload",
-        "--port", str(api_port)
-    ])
+    api_proc = subprocess.Popen(
+        ["uvicorn", "api.main:app", "--reload", "--port", str(api_port)]
+    )
 
     typer.echo("🎨 Starting Svelte frontend...")
     front_proc = subprocess.Popen(
-        ["npm", "run", "dev"],
-        cwd="front-svelte"   # adjust to your workspace
+        ["npm", "run", "dev"], cwd="front-svelte"  # adjust to your workspace
     )
 
     # Give frontend time to start
@@ -65,27 +63,27 @@ def dev(
         typer.echo("🛑 Shutting down…")
         api_proc.terminate()
         front_proc.terminate()
-    
+
 
 # ───────────── SUBCOMMAND: FRONTEND ─────────────
 @app.command()
 def frontend():
     typer.echo("🎨 Starting Svelte frontend...")
     front_proc = subprocess.Popen(
-        ["npm", "run", "dev"],
-        cwd="front-svelte"   # adjust to your workspace
+        ["npm", "run", "dev"], cwd="front-svelte"  # adjust to your workspace
     )
+    return front_proc
+
 
 @app.command()
 def backend(api_port: int = typer.Option(8000)):
     """Run the FastAPI backend."""
     typer.echo("⚙️ Starting FastAPI backend...")
-    api_proc = subprocess.Popen([
-        "uvicorn",
-        "api.main:app",
-        "--reload",
-        "--port", str(api_port)
-    ])
+    api_proc = subprocess.Popen(
+        ["uvicorn", "api.main:app", "--reload", "--port", str(api_port)]
+    )
+    return api_proc
+
 
 # ───────────── SUBCOMMAND: INGEST ─────────────
 @app.command()

@@ -1,10 +1,11 @@
 import time
 from typing import Any, Dict, Tuple
 
+
 class Cache:
     def __init__(self, ttl_secs: int = 21600, max_items=500):
         self.ttl = ttl_secs
-        self.max_items = max_items    
+        self.max_items = max_items
         self.store: Dict[str, Tuple[float, Any]] = {}
 
     def _is_expired(self, timestamp: float) -> bool:

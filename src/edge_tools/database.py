@@ -1,4 +1,4 @@
-### soon to be deprecated 
+### soon to be deprecated
 
 from .utils.dir import get_sql_query
 
@@ -19,10 +19,12 @@ def get_all_available_dates():
         result = con.execute(query).fetchall()
         # logger.debug(f"Query Result: {result}")
         dates = sorted([row[0] for row in result])
-        logger.debug(f"Available dates in database: {dates[0:5]}")  # Log the last few dates
+        logger.debug(
+            f"Available dates in database: {dates[0:5]}"
+        )  # Log the last few dates
         logger.info(f"Total available dates: {len(dates)}")
-    return dates[1:] # Exclude the first date if needed
+    return dates[1:]  # Exclude the first date if needed
 
 
-if __name__ == "__main__": 
+if __name__ == "__main__":
     pass

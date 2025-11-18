@@ -54,9 +54,7 @@ def setup_logging(level=logging.INFO, log_file="app.log"):
     console_handler.setLevel(level)
     console_handler.setFormatter(console_formatter)
 
-    file_handler = RotatingFileHandler(
-        log_file, maxBytes=5_000_000, backupCount=3
-    )
+    file_handler = RotatingFileHandler(log_file, maxBytes=5_000_000, backupCount=3)
     file_handler.setLevel(logging.DEBUG)
     file_handler.setFormatter(file_formatter)
 

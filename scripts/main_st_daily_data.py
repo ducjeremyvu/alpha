@@ -1,4 +1,3 @@
-
 from src.edge_tools.logger import setup_logging
 
 from src.edge_tools.database import get_duckdb_connection
@@ -11,8 +10,7 @@ import pandas as pd
 
 logger = logging.getLogger(__name__)
 
-setup_logging(logging.DEBUG) 
-
+setup_logging(logging.DEBUG)
 
 
 st.title("📊 Pre-Market Analyse")
@@ -38,7 +36,9 @@ def get_daily_data():
         df = con.execute(query).df()
 
     # Ensure timestamp is a proper datetime
-    df["ts_ny"] = pd.to_datetime(df["ts_ny"], utc=True).dt.tz_convert("America/New_York")
+    df["ts_ny"] = pd.to_datetime(df["ts_ny"], utc=True).dt.tz_convert(
+        "America/New_York"
+    )
 
     # Use timestamp as index
     df = df.set_index("ts_ny").sort_index()
@@ -46,13 +46,15 @@ def get_daily_data():
     logger.debug("Minute data preview:\n%s", df.tail())
 
     # Resample to daily OHLCV
-    daily = df.resample("1D").agg({
-        "open": "first",
-        "high": "max",
-        "low": "min",
-        "close": "last",
-        "volume": "sum",
-    })
+    daily = df.resample("1D").agg(
+        {
+            "open": "first",
+            "high": "max",
+            "low": "min",
+            "close": "last",
+            "volume": "sum",
+        }
+    )
 
     # Drop days with no data (weekends, holidays)
     daily = daily.dropna(subset=["open"])
@@ -68,21 +70,26 @@ symbol = "US500"
 first_30_min_data = get_daily_data()
 logger.info(first_30_min_data.head())
 
+
 def create_candlestick_chart(df: pd.DataFrame, symbol: str) -> go.Figure:
-    fig = go.Figure(data=[go.Candlestick(
-        x=df.index,
-        open=df['open'],
-        high=df['high'],
-        low=df['low'],
-        close=df['close'],
-        increasing_line_color='green',
-        decreasing_line_color='red'
-    )])
+    fig = go.Figure(
+        data=[
+            go.Candlestick(
+                x=df.index,
+                open=df["open"],
+                high=df["high"],
+                low=df["low"],
+                close=df["close"],
+                increasing_line_color="green",
+                decreasing_line_color="red",
+            )
+        ]
+    )
     fig.update_layout(
-        title='Daily Candle Stick',
-        yaxis_title='Price',
-        xaxis_title='Time (NY Time)',
-        xaxis_rangeslider_visible=False
+        title="Daily Candle Stick",
+        yaxis_title="Price",
+        xaxis_title="Time (NY Time)",
+        xaxis_rangeslider_visible=False,
     )
     return fig
 
@@ -93,7 +100,7 @@ def create_candlestick_chart(df: pd.DataFrame, symbol: str) -> go.Figure:
 # logger.debug(f"Price at open: {at_open}")
 
 # changer_after_30_min = at_30_min - at_open
-# logger.debug(f"Change after 30 minutes: {changer_after_30_min}")    
+# logger.debug(f"Change after 30 minutes: {changer_after_30_min}")
 # percent_change_after_30_min = (changer_after_30_min / at_open) * 100
 # logger.debug(f"Percent change after 30 minutes: {percent_change_after_30_min}")
 
@@ -108,4 +115,6 @@ if first_30_min_data is not None:
     # Display the chart using Streamlit
     st.plotly_chart(fig)
 else:
-    st.error("Failed to fetch historical data. Please check your API key and selected instrument.")
+    st.error(
+        "Failed to fetch historical data. Please check your API key and selected instrument."
+    )
