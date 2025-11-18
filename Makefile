@@ -36,6 +36,8 @@ main:
 dev:
 	uv run python cli.py -d dev  
 
+pydev
+
 # ============================
 # METRICS
 # ============================

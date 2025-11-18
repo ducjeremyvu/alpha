@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from edge_tools.load import ny_open_30_minute_by_date
 from edge_tools.utils.logger import setup_logging
+from contextlib import asynccontextmanager
 
 from .utils import Cache
 
@@ -15,7 +16,19 @@ setup_logging(logging.DEBUG)
 
 cache = Cache()
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    print("🚀 Connecting DuckDB...")
+    # db.connect()
+
+    yield
+
+    # Shutdown
+    print("🛑 Closing DuckDB...")
+    # db.close()
+
+app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -66,3 +79,9 @@ def get_candles(date: str):
     cache.set(key, response)
     
     return response
+
+
+@app.on_event("shutdown")
+def shutdown_event():
+    db.con.close()   # graceful goodbye
+
