@@ -4,7 +4,7 @@ import pandas as pd
 import mplfinance as mpf
 from .utils import get_data_from_specific_date, get_available_dates
 from ..db import get_duckdb_connection
-from ..dir import get_sql_query
+from ..utils.dir import get_sql_query
 
 logger = logging.getLogger(__name__)
 

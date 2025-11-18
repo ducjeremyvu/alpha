@@ -2,7 +2,7 @@ from __future__ import annotations
 import pandas as pd
 from datetime import datetime, date
 
-from .dir import get_sql_query
+from .utils.dir import get_sql_query
 from .date import to_datetime
 import logging
 

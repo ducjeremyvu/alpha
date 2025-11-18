@@ -1,11 +1,11 @@
 # base modules 
 from src.edge_tools.logger import setup_logging
 from src.edge_tools.database import get_duckdb_connection
-from src.edge_tools.dir import get_sql_query
+from src.edge_tools.utils.dir import get_sql_query
 
 # importing testing modules from
 from src.edge_tools.open import ny_open_30_minute
-from src.edge_tools.db.data import ny_open_30_minute_by_date
+from src.edge_tools.load import ny_open_30_minute_by_date
 from src.edge_tools.analytics.normalize import add_midpoint_value, normalize_data
 
 import logging

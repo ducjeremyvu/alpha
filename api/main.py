@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from edge_tools.api.data import ny_open_30_minute_by_date
+from edge_tools.load import ny_open_30_minute_by_date
 from edge_tools.utils.logger import setup_logging
 
 from .utils import Cache

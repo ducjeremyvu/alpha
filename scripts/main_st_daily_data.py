@@ -2,7 +2,7 @@
 from src.edge_tools.logger import setup_logging
 
 from src.edge_tools.database import get_duckdb_connection
-from src.edge_tools.dir import get_sql_query
+from src.edge_tools.utils.dir import get_sql_query
 
 import plotly.graph_objs as go
 import logging

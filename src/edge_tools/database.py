@@ -1,6 +1,6 @@
 ### soon to be deprecated 
 
-from .dir import get_sql_query
+from .utils.dir import get_sql_query
 
 from .db import get_duckdb_connection
 
