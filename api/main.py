@@ -1,8 +1,10 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
 from edge_tools.load import ny_open_30_minute_by_date
 from edge_tools.utils.logger import setup_logging
+from edge_tools.db import get_duckdb_connection
+from edge_tools.analytics.context_replay import fetch_context_replay_data_and_calculate_metrics
 from contextlib import asynccontextmanager
 
 from .utils import Cache
@@ -19,14 +21,14 @@ cache = Cache()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
-    print("🚀 Connecting DuckDB...")
-    # db.connect()
+    logger.info("🚀 Connecting DuckDB...")
+    app.state.con = get_duckdb_connection()
 
     yield
 
     # Shutdown
-    print("🛑 Closing DuckDB...")
-    # db.close()
+    logger.info("🛑 Closing DuckDB...")
+    app.state.con.close()
 
 
 app = FastAPI(lifespan=lifespan)
@@ -39,14 +41,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-@app.get("/items/{item_id}")
-async def read_item(item_id):
-    return {"item_id": item_id}
-
-
 @app.get("/candles")
-def get_candles(date: str):
+def get_candles(date: str, request: Request):
+    con = request.app.state.con
     # caching
     key = f"/candles?symbol=US500&date{date}"
     cached = cache.get(key)
@@ -55,7 +52,7 @@ def get_candles(date: str):
         # return {"cached": True, "data": cached}
         return cached
 
-    df = ny_open_30_minute_by_date(date)
+    df = ny_open_30_minute_by_date(con, date)
     logger.debug(df.head(10))
 
     ###################
@@ -84,6 +81,14 @@ def get_candles(date: str):
     return response
 
 
-# @app.on_event("shutdown")
-# def shutdown_event():
-#     db.con.close()   # graceful goodbye
+@app.get("/context_replay")
+def get_context_replay(date: str, request: Request):
+    con = request.app.state.con
+    
+
+    key = f"/context_replay?symbol=US500&date{date}"
+
+    response = fetch_context_replay_data_and_calculate_metrics(con, date)
+    cache.set(key, response)
+    logger.debug(response.keys())
+    return response
