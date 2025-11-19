@@ -148,7 +148,7 @@ def resample_mfifteen(df: DataFrame) -> DataFrame:
     }
 
     result = (
-        frame.resample("15T", label="left", closed="left")
+        frame.resample("15min", label="left", closed="left")
         .agg(agg)
         .dropna(subset=["open"])
         .reset_index()
@@ -181,7 +181,7 @@ def resample_hourly(df: DataFrame) -> DataFrame:
     }
 
     return (
-        frame.resample("1H", label="left", closed="left")
+        frame.resample("1h", label="left", closed="left")
         .agg(agg)
         .dropna(subset=["open"])
         .reset_index()
@@ -193,14 +193,48 @@ def main() -> None:
     setup_logging(logging.DEBUG)
     con = get_duckdb_connection()
 
+    ##############
+    #### DATA ####
+    ##############
+
     data = get_context_replay_data(con, date="2025-11-06")
     data.rename(columns={"ts_ny": "time"}, inplace=True)
-
     data_t_minus_sixty = slice_last_sixty_minutes(data)
     data_prev_day_business_hours = get_prev_day_business_hours(data)
-
     data_resampled_m15 = resample_mfifteen(data)
     data_resampled_hourly = resample_hourly(data)
+
+    ###############
+    ### METRICS ###
+    ###############
+
+    ###### PREVIOUS DAY ######
+
+    # data_prev_day_business_hours["absolute_candle_change"] = (data_prev_day_business_hours["close"] - data_prev_day_business_hours["open"]).abs()
+
+    # prev_day_avg_candle_size = data_prev_day_business_hours["absolute_candle_change"].mean()
+
+    prev_day_high = data_prev_day_business_hours["high"].max()
+    prev_day_low = data_prev_day_business_hours["low"].min()
+    prev_day_close =data_prev_day_business_hours.iloc[-1]["close"]
+    prev_day_open = data_prev_day_business_hours.iloc[0]["open"]
+    prev_day_change = prev_day_close - prev_day_open
+    prev_day_change_perc = round(prev_day_change / prev_day_open, 4)*100
+    prev_day_range = round(prev_day_high - prev_day_low, 2)
+    prev_day_change_to_range = prev_day_change / prev_day_range
+    
+    prev_day_metrics = {
+        "prev_day_open": prev_day_open,
+        "prev_day_high": prev_day_high,
+        "prev_day_low": prev_day_low,
+        "prev_day_close": prev_day_close,
+        "prev_day_change": prev_day_change,
+        "prev_day_change_perc": prev_day_change_perc,
+        "prev_day_range": prev_day_range,
+        "prev_day_change_to_range": prev_day_change_to_range,
+        # "prev_day_avg_candle_size" : prev_day_avg_candle_size
+    }
+
 
     response = {
         "data": {
@@ -210,10 +244,12 @@ def main() -> None:
             "m15": data_resampled_m15.to_dict(),
             "h1": data_resampled_hourly.to_dict(),
         },
-        "metrics": {},
+        "metrics": {
+            "prev_day":prev_day_metrics
+        },
     }
 
-    logger.info(response["data"].get("h1"))
+    logger.info(response["metrics"])
 
 
 if __name__ == "__main__":
@@ -240,7 +276,8 @@ if __name__ == "__main__":
 values: 
     - Prev day: requires previous day data 
 	    - ohlc 
-	    - change and percentage change 
+	    - change and percentage change (done)
+        - added range from low to high
     - Premarket volatility 
 
 optional:

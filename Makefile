@@ -36,7 +36,10 @@ main:
 dev:
 	uv run python cli.py -d dev  
 
-pydev
+dev_cont_rp:
+	uv run python dev_context_repl.py
+
+
 
 # ============================
 # METRICS
