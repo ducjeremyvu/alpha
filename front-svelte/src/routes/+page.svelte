@@ -1,18 +1,3 @@
-
-<h1>Welcome to Viet Duc Jeremy's Workspace</h1>
-
-
-<br>
-
-<a href="/tools/opening-range-30m">30 Min US Open US500 CFD</a>
+<h1 class="mx-auto text-center max-w-3xl mt-3 font-bold">Welcome to Viet Duc Jeremy's Workspace</h1>
 
 
-<style>
-    h1 {
-        padding: 2em;
-    }
-
-    a {
-        align-items: center;
-    }
-</style>
