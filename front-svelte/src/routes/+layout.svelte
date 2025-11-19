@@ -1,4 +1,5 @@
 <script lang="ts">
+	import './layout.css';
 	import favicon from '$lib/assets/favicon.svg';
 
 	let { children } = $props();
@@ -8,11 +9,9 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-
 <div class="centered">
-  {@render children()}
+	{@render children()}
 </div>
-
 
 <style>
 	:global(:root) {
@@ -30,10 +29,13 @@
 		-moz-osx-font-smoothing: grayscale;
 	}
 
-
 	:global(body) {
 		margin: 0;
-		font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+		font-family:
+			system-ui,
+			-apple-system,
+			BlinkMacSystemFont,
+			sans-serif;
 		color: #e5e7eb;
 		display: flex;
 		place-items: center;
@@ -53,11 +55,10 @@
 		align-items: center;
 	}
 
-
 	.centered {
 		display: flex;
 		flex-direction: column;
-		align-items: center;   /* horizontal alignment */
-		text-align: center;    /* text inside headings/links centered */
+		align-items: center; /* horizontal alignment */
+		text-align: center; /* text inside headings/links centered */
 	}
 </style>
