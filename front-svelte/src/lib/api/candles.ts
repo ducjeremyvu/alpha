@@ -17,14 +17,16 @@ export interface CandleResponse {
   metrics: CandleMetrics;
 }
 
+export type TimeCandleCollection = Record<string, TimeCandleRow>;
+
 export interface ContextReplayResponse {
   symbol: string;
   data: {
-    all: Record<string, any>;
-    t_minus_60: Record<string, any>;
-    prev_day_business_hours: Record<string, any>;
-    m15: Record<string, any>;
-    h1: Record<string, any>;
+    all: TimeCandleCollection;
+    t_minus_60: TimeCandleCollection;
+    prev_day_business_hours: TimeCandleCollection;
+    m15: TimeCandleCollection;
+    h1: TimeCandleCollection;
   };
   metrics: {
     prev_day: PrevDayMetrics;
@@ -54,4 +56,27 @@ export async function fetchContextReplayDataForDate(date: string): Promise<Conte
   const res = await fetch(`http://localhost:8000/context_replay?date=${date}`);
   if (!res.ok) throw new Error("Failed to laod candles");
   return await res.json() as ContextReplayResponse;
+}
+
+export interface TimeCandleRow {
+  time: string | number;
+  open: string | number;
+  high: string | number;
+  low: string | number;
+  close: string | number;
+  volume?: string | number;
+}
+
+export type TimeCandlesInput = TimeCandleRow[] | TimeCandleCollection;
+
+export function convertTimeCandles(data: TimeCandlesInput): Candle[] {
+  const rows = Array.isArray(data) ? data : Object.values(data);
+  return rows.map((row) => ({
+    time: Math.floor(new Date(row.time).getTime() / 1000),
+    open: Number(row.open),
+    high: Number(row.high),
+    low: Number(row.low),
+    close: Number(row.close),
+    volume: Number(row.volume ?? 0)
+  }));
 }

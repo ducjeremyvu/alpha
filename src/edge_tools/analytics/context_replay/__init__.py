@@ -243,14 +243,15 @@ def fetch_context_replay_data_and_calculate_metrics(
 
     if data_prev_day_business_hours.empty:
         logger.warning("Previous day business hours slice is empty, cannot compute metrics")
+
     prev_day_high = data_prev_day_business_hours["high"].max()
     prev_day_low = data_prev_day_business_hours["low"].min()
     prev_day_close = data_prev_day_business_hours.iloc[-1]["close"]
     prev_day_open = data_prev_day_business_hours.iloc[0]["open"]
-    prev_day_change = prev_day_close - prev_day_open
-    prev_day_change_perc = round(prev_day_change / prev_day_open, 4) * 100
+    prev_day_change = round(prev_day_close - prev_day_open,2)
+    prev_day_change_perc = round((prev_day_change / prev_day_open) * 100, 2)
     prev_day_range = round(prev_day_high - prev_day_low, 2)
-    prev_day_change_to_range = prev_day_change / prev_day_range
+    prev_day_change_to_range = abs(round(prev_day_change / prev_day_range,2))
 
     prev_day_metrics = {
         "prev_day_open": prev_day_open,
