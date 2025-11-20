@@ -53,6 +53,13 @@ def get_candles(date: str, request: Request):
         return cached
 
     df = ny_open_30_minute_by_date(con, date)
+    if df is None:
+        return {
+            "data": {},
+            "metrics": {},
+            "available": False,
+            "message": "No data available for this date."
+        }
     logger.debug(df.head(10))
 
     ###################

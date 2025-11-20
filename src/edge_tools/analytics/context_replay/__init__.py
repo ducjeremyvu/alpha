@@ -12,6 +12,7 @@ from edge_tools.utils.dir import get_sql_query
 from edge_tools.db import get_duckdb_connection
 from edge_tools.utils.logger import setup_logging
 from edge_tools.analytics.utils import convert_to_timestamp
+# from edge_tools.load import ny_open_30_minute_by_date # see idea intention below
 
 from pathlib import Path
 from typing import Any, Sequence, Dict
@@ -23,6 +24,10 @@ logger = logging.getLogger(__name__)
 
 
 SQL_FILENAME = "query_context_replay"
+
+#### idea intention is to add 30 min data, instead of making frontend run 2 api requests.
+# def load_thirty_minutes(con, date):
+#     res = ny_open_30_minute_by_date(con, date)
 
 
 def read_query_in_same_directory(query_name: str, **params: Any) -> str:
@@ -71,6 +76,8 @@ def slice_last_sixty_minutes(df: DataFrame) -> DataFrame:
 
 
 def get_prev_day_business_hours(df: DataFrame) -> DataFrame:
+    if df.empty:
+        return df
     """Return the rows covering the prior business day (30 + 6h of 60m bars)."""
     selection_rows = 30 + 6 * 60
     selected = df.iloc[:selection_rows]
@@ -216,7 +223,7 @@ def fetch_context_replay_data_and_calculate_metrics(
     data = convert_to_timestamp(data)
     logger.info(data.head())
     data_t_minus_sixty = slice_last_sixty_minutes(data)
-    data_prev_day_business_hours = get_prev_day_business_hours(data)
+    data_prev_day_business_hours = resample_mfifteen(get_prev_day_business_hours(data))
     data_resampled_m15 = resample_mfifteen(data)
     data_resampled_hourly = resample_hourly(data)
 
@@ -243,27 +250,28 @@ def fetch_context_replay_data_and_calculate_metrics(
 
     if data_prev_day_business_hours.empty:
         logger.warning("Previous day business hours slice is empty, cannot compute metrics")
+        prev_day_metrics = {}
+    else:
+        prev_day_high = data_prev_day_business_hours["high"].max()
+        prev_day_low = data_prev_day_business_hours["low"].min()
+        prev_day_close = data_prev_day_business_hours.iloc[-1]["close"]
+        prev_day_open = data_prev_day_business_hours.iloc[0]["open"]
+        prev_day_change = round(prev_day_close - prev_day_open,2)
+        prev_day_change_perc = round((prev_day_change / prev_day_open) * 100, 2)
+        prev_day_range = round(prev_day_high - prev_day_low, 2)
+        prev_day_change_to_range = abs(round(prev_day_change / prev_day_range,2))
 
-    prev_day_high = data_prev_day_business_hours["high"].max()
-    prev_day_low = data_prev_day_business_hours["low"].min()
-    prev_day_close = data_prev_day_business_hours.iloc[-1]["close"]
-    prev_day_open = data_prev_day_business_hours.iloc[0]["open"]
-    prev_day_change = round(prev_day_close - prev_day_open,2)
-    prev_day_change_perc = round((prev_day_change / prev_day_open) * 100, 2)
-    prev_day_range = round(prev_day_high - prev_day_low, 2)
-    prev_day_change_to_range = abs(round(prev_day_change / prev_day_range,2))
-
-    prev_day_metrics = {
-        "prev_day_open": prev_day_open,
-        "prev_day_high": prev_day_high,
-        "prev_day_low": prev_day_low,
-        "prev_day_close": prev_day_close,
-        "prev_day_change": prev_day_change,
-        "prev_day_change_perc": prev_day_change_perc,
-        "prev_day_range": prev_day_range,
-        "prev_day_change_to_range": prev_day_change_to_range,
-        # "prev_day_avg_candle_size" : prev_day_avg_candle_size
-    }
+        prev_day_metrics = {
+            "prev_day_open": prev_day_open,
+            "prev_day_high": prev_day_high,
+            "prev_day_low": prev_day_low,
+            "prev_day_close": prev_day_close,
+            "prev_day_change": prev_day_change,
+            "prev_day_change_perc": prev_day_change_perc,
+            "prev_day_range": prev_day_range,
+            "prev_day_change_to_range": prev_day_change_to_range,
+            # "prev_day_avg_candle_size" : prev_day_avg_candle_size
+        }
 
     ###############
     ### Response ###
