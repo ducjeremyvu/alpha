@@ -54,8 +54,14 @@ export async function fetchCandlesForDate(date: string): Promise<CandleResponse>
 
 export async function fetchContextReplayDataForDate(date: string): Promise<ContextReplayResponse> {
   const res = await fetch(`http://localhost:8000/context_replay?date=${date}`);
-  if (!res.ok) throw new Error("Failed to laod candles");
+  if (!res.ok) throw new Error("Failed to load candles");
   return await res.json() as ContextReplayResponse;
+}
+
+export async function fetchLatestDate(): Promise<string> {
+  const res = await fetch(`http://localhost:8000/utils/latest_date`);
+  if (!res.ok) throw new Error("Failed to load candles");
+  return await res.json() as string;
 }
 
 export interface TimeCandleRow {

@@ -99,3 +99,12 @@ def get_context_replay(date: str, request: Request):
     cache.set(key, response)
     logger.debug(response.keys())
     return response
+
+@app.get("/utils/latest_date")
+def get_latest_date(request: Request):
+    con = request.app.state.con
+
+    df = con.execute("SELECT max(time)::date as max_date from ohlcv_minute").df()
+
+    response = df.iloc[0]["max_date"].strftime("%Y-%m-%d")
+    return response
