@@ -21,7 +21,7 @@ def main(
         "--debug",
         "-d",
         help="Enable debug logging (sets logging.DEBUG)",
-    )
+    ),
 ):
     level = logging.DEBUG if debug else logging.INFO
     setup_logging(level)
@@ -44,7 +44,8 @@ def dev(
 
     typer.echo("🎨 Starting Svelte frontend...")
     front_proc = subprocess.Popen(
-        ["npm", "run", "dev"], cwd="front-svelte"  # adjust to your workspace
+        ["npm", "run", "dev"],
+        cwd="front-svelte",  # adjust to your workspace
     )
 
     # Give frontend time to start
@@ -70,7 +71,8 @@ def dev(
 def frontend():
     typer.echo("🎨 Starting Svelte frontend...")
     front_proc = subprocess.Popen(
-        ["npm", "run", "dev"], cwd="front-svelte"  # adjust to your workspace
+        ["npm", "run", "dev"],
+        cwd="front-svelte",  # adjust to your workspace
     )
     return front_proc
 
@@ -80,7 +82,15 @@ def backend(api_port: int = typer.Option(8000)):
     """Run the FastAPI backend."""
     typer.echo("⚙️ Starting FastAPI backend...")
     api_proc = subprocess.Popen(
-        ["uvicorn", "api.main:app", "--reload", "--port", str(api_port)]
+        [
+            "uvicorn",
+            "api.main:app",
+            "--reload",
+            "--port",
+            str(api_port),
+            "--host",
+            "0.0.0.0",
+        ]
     )
     return api_proc
 
