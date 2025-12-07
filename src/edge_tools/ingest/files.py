@@ -17,7 +17,7 @@ def assign_data_path(datapath: str = None) -> Path:
     if not datapath:
         datapath = DATAPATH
     logger.debug(f"Data path assigned to: {datapath}")
-    return Path(datapath)
+    return Path(datapath).expanduser()
 
 
 def get_unwritten_files(folder: Path, interval: str = "Minute") -> list[Path]:
