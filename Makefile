@@ -13,6 +13,8 @@ PY=$(VENV)/python
 # ============================
 db-shell:
 # 	uv run duckdb local.duckdb
+db-create-tables:
+	uv run python scripts/create_all_tables.py
 
 db-drop-metrics:
 	uv run python scripts/delete_and_recreate_metric_tables.py

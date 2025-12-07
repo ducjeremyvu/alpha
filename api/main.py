@@ -4,7 +4,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from edge_tools.load import ny_open_30_minute_by_date
 from edge_tools.utils.logger import setup_logging
 from edge_tools.db import get_duckdb_connection
-from edge_tools.analytics.context_replay import fetch_context_replay_data_and_calculate_metrics
+from edge_tools.analytics.context_replay import (
+    fetch_context_replay_data_and_calculate_metrics,
+)
 from contextlib import asynccontextmanager
 
 from .utils import Cache
@@ -35,11 +37,12 @@ app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 @app.get("/candles")
 def get_candles(date: str, request: Request):
@@ -58,7 +61,7 @@ def get_candles(date: str, request: Request):
             "data": {},
             "metrics": {},
             "available": False,
-            "message": "No data available for this date."
+            "message": "No data available for this date.",
         }
     logger.debug(df.head(10))
 
@@ -91,7 +94,6 @@ def get_candles(date: str, request: Request):
 @app.get("/context_replay")
 def get_context_replay(date: str, request: Request):
     con = request.app.state.con
-    
 
     key = f"/context_replay?symbol=US500&date{date}"
 
@@ -99,6 +101,7 @@ def get_context_replay(date: str, request: Request):
     cache.set(key, response)
     logger.debug(response.keys())
     return response
+
 
 @app.get("/utils/latest_date")
 def get_latest_date(request: Request):
@@ -108,3 +111,4 @@ def get_latest_date(request: Request):
 
     response = df.iloc[0]["max_date"].strftime("%Y-%m-%d")
     return response
+
