@@ -8,6 +8,14 @@ export default defineConfig({
   server: {
     host: true,
     allowedHosts: ["homeassistant.fritz.box"]
+  },
+  proxy: {
+    "/": {
+      target: "http:homeassistant.fritz.box:8000",
+      changeOrigin: true,
+      rewrite: (p) => p.replace(/^\/api/, ""),
+
+    }
   }
 });
 

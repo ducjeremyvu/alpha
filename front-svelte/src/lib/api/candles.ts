@@ -45,22 +45,23 @@ export interface PrevDayMetrics {
   // prev_day_avg_candle_size?: number; // if you add later
 }
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 export async function fetchCandlesForDate(date: string): Promise<CandleResponse> {
-  const res = await fetch(`http://localhost:8000/candles?date=${date}`);
+  const res = await fetch(`${API_BASE}/candles?date=${date}`);
   if (!res.ok) throw new Error("Failed to load candles");
   return await res.json() as CandleResponse;
 }
 
 export async function fetchContextReplayDataForDate(date: string): Promise<ContextReplayResponse> {
-  const res = await fetch(`http://localhost:8000/context_replay?date=${date}`);
+  const res = await fetch(`/context_replay?date=${date}`);
   if (!res.ok) throw new Error("Failed to load candles");
   return await res.json() as ContextReplayResponse;
 }
 
 export async function fetchLatestDate(): Promise<string> {
-  const res = await fetch(`http://localhost:8000/utils/latest_date`);
-  if (!res.ok) throw new Error("Failed to load candles");
+  const res = await fetch(`/utils/latest_date`);
+    if (!res.ok) throw new Error("Failed to load candles");
   return await res.json() as string;
 }
 
