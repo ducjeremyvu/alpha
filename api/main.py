@@ -24,7 +24,7 @@ cache = Cache()
 async def lifespan(app: FastAPI):
     # Startup
     logger.info("🚀 Connecting DuckDB...")
-    app.state.con = get_duckdb_connection()
+    app.state.con = get_duckdb_connection(read_only=True)
 
     yield
 

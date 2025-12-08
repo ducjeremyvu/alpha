@@ -7,6 +7,7 @@ logger = logging.getLogger(__name__)
 
 def get_duckdb_connection(
     duck_db_path: str = "local.duckdb",
+    read_only: bool = False,
 ) -> duckdb.DuckDBPyConnection:
     """Establishes and returns a connection to a DuckDB database.
     Args:
@@ -15,7 +16,7 @@ def get_duckdb_connection(
         duckdb.DuckDBPyConnection: A connection object to the DuckDB database.
     """
     logger.debug(f"Connecting to DuckDB at path: {duck_db_path}")
-    con = duckdb.connect(duck_db_path)  # ← single file  database
+    con = duckdb.connect(duck_db_path, read_only=read_only)  # ← single file  database
     return con
 
 
@@ -53,3 +54,4 @@ def ensure_connection(func):
             return func(*args, **kwargs)
 
     return wrapper
+
