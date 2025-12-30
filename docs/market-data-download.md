@@ -1,6 +1,6 @@
 # Alpaca Market Data Download Script
 
-This note explains how to use `m_ap.py`, with runnable examples and expected outputs.
+This note explains how to use `scripts/market_data_download.py`, with runnable examples and expected outputs.
 
 ## What the script does
 
@@ -35,7 +35,7 @@ export APCA_API_SECRET_KEY="your_secret"
 ### Stocks example (AAPL)
 
 ```
-python scripts/market_data_download.py --symbol AAPL --asset-class stocks --start 2024-01-01 --end 2024-01-31
+uv run python scripts/market_data_download.py --symbol AAPL --asset-class stocks --start 2024-01-01 --end 2024-01-31
 ```
 
 Output files:
@@ -46,7 +46,7 @@ Output files:
 ### Crypto example (BTC/USD)
 
 ```
-python scripts/market_data_download.py --symbol BTC/USD --asset-class crypto --start 2024-01-01 --end 2024-01-07
+uv run python scripts/market_data_download.py --symbol BTC/USD --asset-class crypto --start 2024-01-01 --end 2024-01-07
 ```
 
 Output files:
