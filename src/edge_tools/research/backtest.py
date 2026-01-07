@@ -17,7 +17,7 @@ def backtest_patterns(
     data = data.sort_values(["session_date", "time_ny"]).reset_index(drop=True)
     data["bar_id"] = data.groupby("session_date").cumcount()
     signals = signals.merge(
-        data[["session_date", "time_ny", "bar_id", "open", "high", "low", "close", "rolling_range_mean", "context_label"]],
+        data[["session_date", "time_ny", "bar_id", "open", "high", "low", "close", "rolling_range_mean"]],
         on=["session_date", "time_ny"],
         how="left",
         suffixes=("", "_bar"),

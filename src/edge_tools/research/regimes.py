@@ -24,7 +24,7 @@ def _resample_data(data: pd.DataFrame) -> dict[str, pd.DataFrame]:
     data = data.sort_values("time_ny")
     data = data.set_index("time_ny")
     resampled = {
-        "1h": data.resample("1H").agg(_ohlcv_agg()).dropna(subset=["open"]),
+        "1h": data.resample("1h").agg(_ohlcv_agg()).dropna(subset=["open"]),
         "1d": data.resample("1D").agg(_ohlcv_agg()).dropna(subset=["open"]),
     }
     for key, frame in resampled.items():

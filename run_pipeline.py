@@ -42,11 +42,17 @@ def main() -> None:
     pattern_signals, pattern_summary = build_pattern_candidates(features, context)
     write_pattern_candidates(pattern_summary, output_dir / "pattern_candidates.json")
 
-    trades = backtest_patterns(features, pattern_signals)
+    context_allowlist = {"trend_up_balance", "balance_trend", "trend_up_mixed"}
+    filtered_signals = pattern_signals[
+        pattern_signals["context_label"].isin(context_allowlist)
+    ].copy()
+
+    trades = backtest_patterns(features, filtered_signals)
     trades.to_parquet(output_dir / "backtest_results.parquet", index=False)
     backtest_summary = summarize_backtest(trades)
+    backtest_summary["context_filter"] = sorted(context_allowlist)
 
-    sensitivity_summary = _sensitivity(features, pattern_signals)
+    sensitivity_summary = _sensitivity(features, filtered_signals)
     write_playbook(trades, output_dir / "playbook.md")
 
     regime_summary = _regime_summary(context)
