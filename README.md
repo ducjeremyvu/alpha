@@ -38,3 +38,16 @@ You can the test ingest the example data into the duckdb database.
 
 I would recommend setting up a dedicated folder where you place your csv files with price data. The csv files have to have a certain naming convention.
 # TODO SHOW NAMING CONVENTION
+
+## Data Workflow
+
+See `docs/data_workflow.md` for the standardized layout for raw/processed data, notebooks, and asset-specific queries.
+
+## US500 First-Window Analysis
+
+Use `uv run python scripts/analyses/us500_first_150.py` to generate 09:30–12:00 ET features from UTC bars.
+
+## Research Docs
+
+- `docs/research_process.md`
+- `docs/CHANGELOG.md`
