@@ -14,29 +14,29 @@ PY=$(VENV)/python
 db-shell:
 # 	uv run duckdb local.duckdb
 db-create-tables:
-	uv run python scripts/create_all_tables.py
+	uv run python scripts/maintenance/create_all_tables.py
 
 db-drop-metrics:
-	uv run python scripts/delete_and_recreate_metric_tables.py
+	uv run python scripts/maintenance/delete_and_recreate_metric_tables.py
 
 ingest-minute: 
-	uv run python scripts/ingest_minute_data.py
+	uv run python scripts/ingest/ingest_minute_data.py
 
 # ============================
 # DEVELOPMENT TASKS
 # ============================
 
 backend:
-	uv run python cli.py -d backend
+	uv run python scripts/entrypoints/cli.py -d backend
 
 frontend:
-	uv run python cli.py -d frontend
+	uv run python scripts/entrypoints/cli.py -d frontend
 
 main:
 	uv run python main.py
 
 dev:
-	uv run python cli.py -d dev  
+	uv run python scripts/entrypoints/cli.py -d dev  
 
 dev_cont_rp:
 	uv run python dev_context_repl.py

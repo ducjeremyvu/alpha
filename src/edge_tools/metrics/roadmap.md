@@ -905,7 +905,7 @@ You’re basically building a mini Feast / Tecton but tailor-made for trading.
 
 You can add a CLI.
 
-### scripts/cli.py
+### scripts/entrypoints/cli.py
 
 ```python
 import typer
@@ -935,8 +935,8 @@ if __name__ == "__main__":
 Then you do:
 
 ```
-uv run python scripts/cli.py compute 2025-11-13
-uv run python scripts/cli.py backfill 2025-01-01 2025-11-13
+uv run python scripts/entrypoints/cli.py compute 2025-11-13
+uv run python scripts/entrypoints/cli.py backfill 2025-01-01 2025-11-13
 ```
 
 Now your system has a proper command-line interface.

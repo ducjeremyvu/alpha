@@ -23,7 +23,7 @@ Build a slow, repeatable research pipeline that turns intraday 5-minute patterns
 
 ## How to Run
 ```bash
-uv run python run_pipeline.py
+uv run python scripts/entrypoints/run_pipeline.py
 ```
 
 ## Outputs (Deterministic)
@@ -42,7 +42,7 @@ uv run python run_pipeline.py
 
 ## High-Level Architecture
 - **Core modules:** `src/edge_tools/research/*.py`
-- **Orchestrator:** `run_pipeline.py`
+- **Orchestrator:** `scripts/entrypoints/run_pipeline.py`
 - **Artifacts:** `outputs/`
 
 The process is designed to be re-run as data grows, with consistent outputs and context-aware pattern evaluation.

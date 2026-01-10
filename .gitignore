@@ -113,3 +113,8 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
 app.log.*
+
+# Project artifacts
+local.duckdb
+identifier.db
+outputs/

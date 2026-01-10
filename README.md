@@ -50,4 +50,8 @@ Use `uv run python scripts/analyses/us500_first_150.py` to generate 09:30–12:0
 ## Research Docs
 
 - `docs/research_process.md`
+- `docs/research_features.md`
+- `docs/mean_reversion_mock.md`
+- `docs/mean_reversion_features.md`
 - `docs/CHANGELOG.md`
+- `docs/README.md`

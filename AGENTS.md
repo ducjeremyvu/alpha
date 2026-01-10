@@ -3,10 +3,10 @@
 ## Project Structure & Module Organization
 - `src/edge_tools/` houses the core Python package (analytics, ingest, DB helpers, utilities).
 - `api/` contains the FastAPI entrypoint (`main.py`).
-- `scripts/` holds one-off maintenance jobs (table creation, ingestion, metrics).
+- `scripts/` holds entrypoints, maintenance jobs, streamlit apps, and experiments.
 - `sql/` includes DuckDB query files used by scripts.
 - `tests/` stores pytest-based unit tests for package modules.
-- `front-svelte/` is the SvelteKit UI, while `frontend/` is a small static demo.
+- `front-svelte/` is the SvelteKit UI, while `frontend-demo/` is a small static demo.
 - `notebooks/` and `price_data/` are for research and local datasets—avoid committing large data files.
 
 ## Build, Test, and Development Commands

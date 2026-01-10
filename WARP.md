@@ -40,7 +40,7 @@ pytest -v
 
 ### Running the Streamlit App
 ```bash
-streamlit run main_st.py
+streamlit run scripts/streamlit/main_st.py
 ```
 
 ### Database Operations
@@ -115,7 +115,7 @@ The `edge_tools` package uses **lazy loading** via `__getattr__` in `__init__.py
 - **pandas**: DataFrame operations and time series manipulation
 - **Jinja2**: SQL template rendering
 - **pytz**: Timezone conversions (via pandas)
-- **streamlit**: Web UI for daily analysis (`main_st.py`)
+- **streamlit**: Web UI for daily analysis (`scripts/streamlit/main_st.py`)
 - **plotly**: Candlestick chart visualization
 
 ### Data Storage
