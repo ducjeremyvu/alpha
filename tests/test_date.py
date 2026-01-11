@@ -1,6 +1,6 @@
 import pytest
 from datetime import datetime, date
-from edge_tools.date import to_datetime  # adjust import to your module
+from edge_tools.time_series.date import to_datetime  # adjust import to your module
 
 
 def test_datetime_input_passes_through():

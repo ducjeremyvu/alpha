@@ -1,6 +1,2 @@
-# deprecated file, soon to me not useful anymore
-
-from .utils.date import to_datetime
-
-
-__all__ = ["to_datetime"]
+from .time_series.date import *  # noqa: F403
+from .time_series.date import __all__  # noqa: F401

@@ -1,7 +1,7 @@
 # cli.py
 
-from src.edge_tools.database import insert_minute_file_data
-from src.edge_tools.utils.logger import setup_logging
+from edge_tools.db.database import insert_minute_file_data
+from edge_tools.utils.logger import setup_logging
 import typer
 import subprocess
 import time

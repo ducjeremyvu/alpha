@@ -59,6 +59,9 @@ format:
 	$(PY) -m black src
 	$(PY) -m isort src
 
+test:
+	uv run --extra dev pytest
+
 # ============================
 # SELF-DOCUMENTATION
 # ============================

@@ -1,5 +1,5 @@
 import pandas as pd
-from edge_tools.ohlcv import normalize_ohlcv
+from edge_tools.time_series.ohlcv import normalize_ohlcv
 
 
 def test_normalize_capitalized():

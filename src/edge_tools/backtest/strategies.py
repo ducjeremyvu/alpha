@@ -5,7 +5,7 @@ from dataclasses import dataclass
 import numpy as np
 import pandas as pd
 
-from edge_tools.ohlcv import require_columns
+from edge_tools.time_series.ohlcv import require_columns
 
 from .schemas import StrategyParams, Trade
 

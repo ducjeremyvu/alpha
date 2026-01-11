@@ -1,4 +1,4 @@
-from edge_tools.open import ny_open_30_minute
+from edge_tools.time_series.open import ny_open_30_minute
 
 import logging
 import pandas as pd

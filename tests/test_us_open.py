@@ -1,5 +1,5 @@
 import pandas as pd
-from edge_tools.us_open import split_us_market_hours
+from edge_tools.time_series.us_open import split_us_market_hours
 
 
 def test_split_us_market_hours():

@@ -64,10 +64,10 @@ def run_walkforward(
             params = _row_to_params(row)
             parent_run_id = row["run_id"]
             for split_year in years[1:]:
-                train_start = datetime(years[0], 1, 1)
-                train_end = datetime(split_year, 1, 1)
-                test_start = datetime(split_year, 1, 1)
-                test_end = datetime(split_year + 1, 1, 1)
+                train_start = pd.Timestamp(datetime(years[0], 1, 1), tz="UTC")
+                train_end = pd.Timestamp(datetime(split_year, 1, 1), tz="UTC")
+                test_start = pd.Timestamp(datetime(split_year, 1, 1), tz="UTC")
+                test_end = pd.Timestamp(datetime(split_year + 1, 1, 1), tz="UTC")
 
                 train_bundle = _filter_bundle(
                     candle_bundle,

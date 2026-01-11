@@ -1,7 +1,7 @@
 # base modules 
-from src.edge_tools.logger import setup_logging
-from src.edge_tools.database import get_duckdb_connection
-from src.edge_tools.utils.dir import get_sql_query
+from edge_tools.logger import setup_logging
+from edge_tools.db import get_duckdb_connection
+from edge_tools.utils.dir import get_sql_query
 from edge_tools.db import ensure_connection
 # importing testing modules from
 
@@ -66,15 +66,15 @@ Current Goals:
 
 """
 
-from src.edge_tools.metrics.compute.thirty_min_open_change import (
+from edge_tools.metrics.compute.thirty_min_open_change import (
     metric_thirty_min_open_change_abs, 
     metric_thirty_min_open_change_rel,
     compute_thirty_min_open_change_absolute,
     compute_thirty_min_open_change_relative
     )
 
-from src.edge_tools.metrics.base import MetricDefinition
-from src.edge_tools.metrics.registry import ensure_metric_registered
+from edge_tools.metrics.base import MetricDefinition
+from edge_tools.metrics.registry import ensure_metric_registered
 
 metrics = [metric_thirty_min_open_change_abs, metric_thirty_min_open_change_rel]
 
