@@ -47,6 +47,20 @@ See `docs/data_workflow.md` for the standardized layout for raw/processed data, 
 
 Use `uv run python scripts/analyses/us500_first_150.py` to generate 09:30–12:00 ET features from UTC bars.
 
+## Strategy Optimization
+
+Run the distributed sweep with worker sharding via env vars:
+
+```
+WORKER_ID=0 N_WORKERS=4 SYMBOL=US500 uv run python scripts/run_optimizations.py
+```
+
+Walk-forward validation on the top results:
+
+```
+TOP_N=50 SYMBOL=US500 uv run python scripts/run_walkforward.py
+```
+
 ## Research Docs
 
 - `docs/research_process.md`
