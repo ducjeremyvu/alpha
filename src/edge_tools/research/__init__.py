@@ -6,6 +6,12 @@ from edge_tools.research.patterns import build_pattern_candidates
 from edge_tools.research.backtest import backtest_patterns
 from edge_tools.research.playbook import write_playbook
 from edge_tools.research.report import write_report
+from edge_tools.research.daily_signals import (
+    build_signal_dataset,
+    load_daily_candles,
+    save_signal_dataset,
+    summarize_signal_dataset,
+)
 
 __all__ = [
     "load_us500_data",
@@ -17,4 +23,8 @@ __all__ = [
     "backtest_patterns",
     "write_playbook",
     "write_report",
+    "build_signal_dataset",
+    "load_daily_candles",
+    "save_signal_dataset",
+    "summarize_signal_dataset",
 ]

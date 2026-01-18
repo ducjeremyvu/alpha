@@ -3,7 +3,4 @@ import os
 
 load_dotenv()
 
-DATAPATH = os.getenv("DUCKDB_PATH", "/Users/ducjeremyvu/trading/price_data")
-
-# alternative below makes it OS independent
-# DATAPATH = Path(os.getenv("DATAPATH", "/Users/ducjeremyvu/trading/price_data")).expanduser()
+DATAPATH = os.getenv("DATAPATH", "price_data")
