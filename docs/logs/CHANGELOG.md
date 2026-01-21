@@ -3,7 +3,7 @@
 ## 2026-01-08
 ### Added
 - Documentation index at `docs/README.md` with quality commands.
-- Cleanup notes in `docs/project_tidy_plan.md` with completed checklist.
+- Cleanup notes in `docs/plans/project_tidy_plan.md` with completed checklist.
 
 ### Changed
 - Consolidated entrypoints under `scripts/entrypoints/` and Streamlit apps under `scripts/streamlit/`.
@@ -22,7 +22,7 @@
 - End-to-end intraday research pipeline under `src/edge_tools/research/`.
 - `scripts/entrypoints/run_pipeline.py` orchestrator for loading, slicing, features, regimes, patterns, backtest, and report outputs.
 - US500 pattern library, backtest engine, and playbook/report generators.
-- Documentation: `docs/data_workflow.md` updates and new `docs/research_process.md`.
+- Documentation: `docs/core/data_workflow.md` updates and new `docs/core/research_process.md`.
 - Structured outputs under `outputs/` (parquet, json, markdown).
 
 ### Data

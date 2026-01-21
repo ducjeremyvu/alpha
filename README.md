@@ -41,7 +41,7 @@ I would recommend setting up a dedicated folder where you place your csv files w
 
 ## Data Workflow
 
-See `docs/data_workflow.md` for the standardized layout for raw/processed data, notebooks, and asset-specific queries.
+See `docs/core/data_workflow.md` for the standardized layout for raw/processed data, notebooks, and asset-specific queries.
 
 ## US500 First-Window Analysis
 
@@ -63,9 +63,9 @@ TOP_N=50 SYMBOL=US500 uv run python scripts/run_walkforward.py
 
 ## Research Docs
 
-- `docs/research_process.md`
-- `docs/research_features.md`
-- `docs/mean_reversion_mock.md`
-- `docs/mean_reversion_features.md`
-- `docs/CHANGELOG.md`
+- `docs/core/research_process.md`
+- `docs/research/research_features.md`
+- `docs/research/mean_reversion_mock.md`
+- `docs/research/mean_reversion_features.md`
+- `docs/logs/CHANGELOG.md`
 - `docs/README.md`
