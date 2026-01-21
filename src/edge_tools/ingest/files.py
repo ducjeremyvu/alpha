@@ -87,14 +87,58 @@ def build_symbol_file_records(symbol_file_map: dict[str, Path]) -> list[dict]:
             if isinstance(path_obj, Path)
             else str(path_obj)
         )
+        file_start, file_end = _detect_time_range(path_obj)
         records.append(
             {
                 "path": path_obj,
-                "parameter": {"symbol": symbol, "file_path_csv": path_str},
+                "parameter": {
+                    "symbol": symbol,
+                    "file_path_csv": path_str,
+                    "file_start": file_start,
+                    "file_end": file_end,
+                },
             }
         )
     logger.debug(f"Built symbol file records: {records}")
     return records
+
+
+def _detect_time_range(path_obj: Path) -> tuple[str | None, str | None]:
+    if not isinstance(path_obj, Path) or not path_obj.exists():
+        return None, None
+    try:
+        with path_obj.open("r", encoding="utf-8") as handle:
+            header = handle.readline()
+            if not header:
+                return None, None
+            time_index = _find_time_index(header)
+            first_row = handle.readline()
+            if not first_row:
+                return None, None
+            first_time = _parse_time_from_row(first_row, time_index)
+            last_time = None
+            for line in handle:
+                last_time = _parse_time_from_row(line, time_index)
+            if last_time is None:
+                last_time = first_time
+            return first_time, last_time
+    except OSError:
+        return None, None
+
+
+def _find_time_index(header: str) -> int:
+    columns = [col.strip().strip("\ufeff") for col in header.split(",")]
+    for idx, name in enumerate(columns):
+        if name.lower() == "time":
+            return idx
+    return 0
+
+
+def _parse_time_from_row(row: str, time_index: int) -> str | None:
+    values = [val.strip() for val in row.split(",")]
+    if time_index >= len(values):
+        return None
+    return values[time_index] or None
 
 
 def mark_file_as_done(file_path: Path) -> Path:

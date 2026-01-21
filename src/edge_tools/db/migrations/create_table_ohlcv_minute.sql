@@ -24,7 +24,46 @@ CREATE TABLE IF NOT EXISTS ohlcv_hour (
 );
 
 
+CREATE TABLE IF NOT EXISTS ohlcv_15m (
+    symbol TEXT NOT NULL,
+    time   TIMESTAMPTZ NOT NULL,
+    open   DOUBLE,
+    high   DOUBLE,
+    low    DOUBLE,
+    close  DOUBLE,
+    volume BIGINT,
+    added_at TIMESTAMPTZ DEFAULT (NOW() AT TIME ZONE 'UTC'),
+    PRIMARY KEY (symbol, time)
+);
+
+
+CREATE TABLE IF NOT EXISTS ohlcv_30m (
+    symbol TEXT NOT NULL,
+    time   TIMESTAMPTZ NOT NULL,
+    open   DOUBLE,
+    high   DOUBLE,
+    low    DOUBLE,
+    close  DOUBLE,
+    volume BIGINT,
+    added_at TIMESTAMPTZ DEFAULT (NOW() AT TIME ZONE 'UTC'),
+    PRIMARY KEY (symbol, time)
+);
+
+
 CREATE TABLE IF NOT EXISTS ohlcv_daily (
+    symbol TEXT NOT NULL,
+    time   TIMESTAMPTZ NOT NULL,
+    open   DOUBLE,
+    high   DOUBLE,
+    low    DOUBLE,
+    close  DOUBLE,
+    volume BIGINT,
+    added_at TIMESTAMPTZ DEFAULT (NOW() AT TIME ZONE 'UTC'),
+    PRIMARY KEY (symbol, time)
+);
+
+
+CREATE TABLE IF NOT EXISTS ohlcv_daily_rth (
     symbol TEXT NOT NULL,
     time   TIMESTAMPTZ NOT NULL,
     open   DOUBLE,
@@ -49,4 +88,3 @@ CREATE TABLE IF NOT EXISTS ohlcv_weekly (
     added_at TIMESTAMPTZ DEFAULT (NOW() AT TIME ZONE 'UTC'),
     PRIMARY KEY (symbol, time)
 );
-
