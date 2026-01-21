@@ -8,6 +8,7 @@
 - `tests/` stores pytest-based unit tests for package modules.
 - `front-svelte/` is the SvelteKit UI, while `frontend-demo/` is a small static demo.
 - `notebooks/` and `price_data/` are for research and local datasets—avoid committing large data files.
+- `docs/` is organized into `core/`, `research/`, `plans/`, and `logs/` subfolders.
 
 ## Build, Test, and Development Commands
 - `uv run python main.py` runs the main application entrypoint.
